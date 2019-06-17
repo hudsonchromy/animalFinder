@@ -17,7 +17,7 @@
     		<div class="col-sm-5">
     			<h1>Upload your Image</h1>
     			<img src="" id="face">
-    			<canvas id='myCanvas' width="" height="1000"></canvas>
+    			<canvas id='myCanvas' width="" height="300"></canvas>
     			<video autoplay="true" id="videoElement" style="display: none;">
     		</div>
     		<div class="col-sm-2">
@@ -63,6 +63,7 @@
 					displayAnimal();
 					setTimeout(1000);
 					clearInterval(id);
+                    ctx.clearRect(0, 0, cnvs.width, cnvs.height);
 				}
 				ctx.moveTo(0, y);
 				ctx.lineTo(img.width, y);
