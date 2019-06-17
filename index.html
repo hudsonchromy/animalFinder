@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <title>Animal Finder</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://cdn.auburn.edu/assets/css/bootstrap.min.css">
+        <link rel="stylesheet" href="style.css"/>  
+        <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>  
+        <script src="jquery.gradientify.min.js"></script>
+    </head>
+    <body>
+    	<div class="col-sm-12">
+    		<div class="col-sm-5">
+    			<h1>Upload your Image</h1>
+    			<img src="" id="face">
+    			<canvas id='myCanvas' width="" height="1000"></canvas>
+    			<video autoplay="true" id="videoElement" style="display: none;">
+    		</div>
+    		<div class="col-sm-2">
+    			<button onclick="Draw()">Find my Animal</button>
+    			<input type="file" onchange="readURL(this);"
+       id="inputThing"
+       accept="image/png, image/jpeg">
+    		</div>
+    		<div class="col-sm-5">
+    			<h1>Your Animal</h1>
+
+    			<img id="animal" src="">
+
+    		</div>
+    	</div>
+    	<script>
+    		var y = 0;
+    		var change = 3;
+    		var id;
+
+    		function Draw() {
+    			id = setInterval(frame, 12);
+    		}
+
+			function frame() {
+				var img = document.getElementById("face");
+				var cnvs = document.getElementById("myCanvas");
+
+				cnvs.style.position = "absolute";
+				cnvs.style.left = img.offsetLeft + "px";
+				cnvs.style.top = img.offsetTop + "px";
+
+				var ctx = cnvs.getContext("2d");
+				ctx.clearRect(0, 0, cnvs.width, cnvs.height);
+
+				ctx.beginPath();
+				y+=change;
+				if (y > img.height) {
+					change *= -1;
+				}
+				else if (y < 0) {
+					change = 0;
+					displayAnimal();
+					setTimeout(1000);
+					clearInterval(id);
+				}
+				ctx.moveTo(0, y);
+				ctx.lineTo(img.width, y);
+				ctx.lineWidth = 30;
+				ctx.stroke();
+
+			}
+
+
+
+
+    		var rand;
+
+
+    		function readURL(input) {
+		        if (input.files && input.files[0]) {
+		            var reader = new FileReader();
+
+		            reader.onload = function (e) {
+		                $('#face')
+		                    .attr('src', e.target.result);
+		            };
+		            reader.readAsDataURL(input.files[0]);
+		            rand = input.files[0].name.charCodeAt(Math.floor(input.files[0].name.length / 2));
+		        }
+
+    		}
+    		function displayAnimal() {
+    			animals = ["racoon.jpg", "goat.jpg", "fox.jpg", "goat.jpg", "tiger.jpg", "lion.jpg", "koala.jpg", "ape.jpg", "dog.jpg", "bear.jpg", "bird.jpg"];
+    			var animal = animals[rand%10];
+    			$("#animal").attr("src","animals/" + animal);
+    		}
+    		$('body').gradientify({
+			    gradients: [
+			        { start: [49,76,172], stop: [242,159,191] },
+			        { start: [255,103,69], stop: [240,154,241] },
+			        { start: [33,229,241], stop: [235,236,117] }
+			    ]
+			});
+    	</script>
+    </body>
+</html>
